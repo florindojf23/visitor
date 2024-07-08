@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>Correspondent | {{title}}</title>
+        <style type="text/css">
+           
+            
+            .title span {
+                color: #007cae;
+            }
+            .details {
+                text-align: left !important;
+                /*margin-left: 40%;*/
+            }
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+        </style>
+    </head>
+    <body>
+        <div class='wrapper'>
+            <div style="text-align: center;font-size: 14px">
+                <p style="font-size: 14px">Relatoriu Visitor Sira  </p>
+                <p style="font-size: 12px">Ministerio Defesa </p>
+            </div>
+        <div>
+        <hr>
+        <br>
+        <b><center><u>Lista Visitor Sira</u></center></b>
+        <br>
+        <table width="100%" border="0">
+            <thead>
+                <tr style="background-color: rgb(185, 169, 169)">
+                    <th width="10%" style="padding: 2px">No</th>
+                    <th width="40%">Naran</th>
+                    <th width="50%">Sexo</th>
+                    <th width="50%">Data_Moris</th>
+                    <th width="50%">Hela Fatin</th>
+                    <th width="50%">Nu Kontaktu</th>
+                    <th width="50%">email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in dadus %}
+                <tr style="padding: 2px;font-size: 0.9em">
+                    <td style=""><center>{{forloop.counter}}</center></td>
+                    <td><center>{{data.naran}}</center></td>
+                    <td><center>{{data.seksu}}</center></td>
+                    <td><center>{{data.husi_diresaun}}</center></td>
+                    <td><center>{{data.hela_fatin}}</center></td>
+                    <td><center>{{data.nu_kontaktu}}</center></td>
+                    <td><center>{{data.email}}</center></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>

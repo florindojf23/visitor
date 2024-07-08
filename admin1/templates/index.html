@@ -1,0 +1,15 @@
+{% if request.user.is_staff %}
+{% include 'dashboard.html' %}
+{% endif %}
+
+{% if request.user.is_recepcionist %}
+{% include 'recepsionist/varanda.html' %}
+{% endif %}
+
+{% if request.user.is_funsionariu %}
+{% include 'funsionariu/varanda.html' %}
+{% endif %}
+
+{% if request.user.is_visitor %}
+{% include 'visitor/varanda.html' %}
+{% endif %}

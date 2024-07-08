@@ -1,0 +1,157 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+                    <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+                        For more information about DataTables, please visit the <a target="_blank"
+                            href="https://datatables.net">official DataTables documentation</a>.</p> -->
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary text-muted"><a href="{% url 'home' %}">Varanda</a> / Lista Funcionariu</h6>
+                            <div class="d-flex justify-content-between">
+                            <a class="btn btn-sm btn-primary btn-icon-split mr-1" href="{% url 'create_funcionariu' %}">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-plus"></i>
+                                </span>
+                                <span class="text">Add Funcionariu</span>
+                            </a>
+                            <a class="btn btn-sm btn-primary btn-icon-split mr-1" href="{% url 'pdf_funcionariu' %}">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-print"></i>
+                                </span>
+                                <span class="text">Pdf</span>
+                            </a>
+                             <a class="btn btn-sm btn-primary btn-icon-split" href="{% url 'csv_funcionariu' %}">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-print"></i>
+                                </span>
+                                <span class="text">Csv</span>
+                            </a>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Name</th>
+                                            <th>Sexo</th>
+                                            <th>Data Moris</th>
+                                            <th>Hela Fatin</th>
+                                            <th>Municipio</th>
+                                            <th>Nu Kontaktu</th>
+                                            <th>Email</th>
+                                            <th>Diresaun</th>
+                                            <th>Asaun</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for list in dadus %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td class="editable" data-id="{{list.id}}" data-type="naran" data-url="{% url 'liveFunSave' %}">{{ list.naran }}</td>
+                                            <td class="editable" data-id="{{list.id}}" data-type="sexo" data-url="{% url 'liveFunSave' %}">{{ list.sexo }}</td>
+                                            <td class="editable" data-id="{{list.id}}" data-type="data_moris" data-url="{% url 'liveFunSave' %}">{{ list.data_moris }}</td>
+                                            <td class="editable" data-id="{{list.id}}" data-type="hela_fatin" data-url="{% url 'liveFunSave' %}">{{ list.hela_fatin }}</td>
+                                            <td class="editable" data-id="{{list.id}}" data-type="municipio" data-url="{% url 'liveFunSave' %}">{{ list.municipio }}</td>
+                                            <td class="editable" data-id="{{list.id}}" data-type="nu_kontaktu" data-url="{% url 'liveFunSave' %}">{{ list.nu_kontaktu }}</td>
+                                            <td class="editable" data-id="{{list.id}}" data-type="email" data-url="{% url 'liveFunSave' %}">{{ list.email }}</td>
+                                            <td class="editable" data-id="{{list.id}}" data-type="diresaun" data-url="{% url 'liveFunSave' %}">{{ list.diresaun }}</td>
+                                            <td><a href="{% url 'update_funcionariu' list.id %}" class="btn btn-sm btn-success">
+                                                <span class="icon">
+                                                    <i class="fas fa-edit"></i>
+                                                </span></a>
+                                               <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-{{ list.id }}" style="text-decoration: none"><i class="fa fa-trash"></i></button>
+                                            </td>
+                        <div class="modal fade" id="delete-{{ list.id}}"><!-- modal -->
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                  <h4 class="modal-title">Delete Dadus Detail Visitor</h4>
+                                  <button type="button" class="close" data-dismiss="modal">X</button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                  Ita Boot hakarak hamoos Detail Visitor ho naran {{ list.naran | upper }}?
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                                  <a href="{% url 'delete_funcionariu' list.id  %}" class="btn btn-info">Yes</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                                      </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+ <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+
+                <script type="text/javascript">
+            $(document).ready(function () {
+              // action when dobleclick  
+              $(document).on("dblclick", ".editable", function () {
+                var value = $(this).text();
+                var input = "<input type='text' class='input-data form-control' value='"+value+"'>";
+                $(this).html(input);
+                $(this).removeClass("editable");
+              });
+
+              $(document).on("blur",".input-data",function () {
+                var value = $(this).val();
+                var td = $(this).parent("td");
+                $(this).remove();
+                td.html(value);
+                td.addClass("editable");
+                var type = td.data("type");
+                sendToServer(td.data("id"),value,type);
+              });
+              // remove editable bainhira hanehan enter
+              $(document).on("keypress",".input-data",function (e) {
+                var key = e.which;
+                if (key == 13) {
+                  var value = $(this).val();
+                  var td = $(this).parent("td");
+                  $(this).remove();
+                  td.html(value);
+                  td.addClass("editable");
+                  var type = td.data("type");
+                  sendToServer(td.data("id"),value,type);
+                }
+              });
+              // haruka data ba server ka database
+              function sendToServer(id,value,type) {
+                console.log(id);
+                console.log(value);
+                console.log(type);
+                var $doc  = $('.editable');
+                $.ajax({
+                  url:$doc.data("url"),
+                  type:"POST",
+                  data:{id:id,type:type,value:value},
+                })
+                .done(function(response) {
+                  console.log(response);
+                })
+                .fail(function(response) {
+                  console.log("Error Ocurred");
+                })
+              }
+
+            });
+          </script>
+   
+{% endblock %}
