@@ -26,7 +26,7 @@ SECRET_KEY = 'jx6x4#-3(m^f56+cvf&28_avhyz)-4_10#^lq%p$1v#7$716tn'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['visitor-xupv.onrender.com','*']
 AUTH_USER_MODEL = 'user.User'
 
 
